@@ -25,6 +25,10 @@ import Entype from 'react-native-vector-icons/FontAwesome';
 
 import HomeScreen from './src/screens/Home'
 import Post from './src/components/Post'
+
+import feed from  './assets/data/feed'
+
+const post1 = feed[2]
 const App: () => Node = () => {
 
   return (
@@ -32,7 +36,7 @@ const App: () => Node = () => {
     <StatusBar barStyle='dark-content' />
      <SafeAreaView >
         {/* <HomeScreen/> */}
-        <Post/>
+        <Post post={post1}/>
       </SafeAreaView>
     </>
    
