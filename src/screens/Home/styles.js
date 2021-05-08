@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         position:'absolute',
-        top:20,
+        top:40,
         elevation:100,
     },
     searchButtonText:{

@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
 import type {Node} from 'react';
 import {
@@ -21,29 +21,14 @@ import {
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import Entype from 'react-native-vector-icons/FontAwesome';
+import Router from './src/navigation/Router'
 
-import HomeScreen from './src/screens/Home'
-import Post from './src/components/Post'
-import SearchResultsScreen from './src/screens/SearchResults'
-import DestinationSearchScreen from './src/screens/DestinationSearch'
-import GuestsScreen from './src/screens/Guests'
-
-import feed from  './assets/data/feed'
-
-const post1 = feed[2]
 const App: () => Node = () => {
 
   return (
     <>
     <StatusBar barStyle='dark-content' />
-     <SafeAreaView >
-        {/* <HomeScreen/> */}
-        {/* <Post post={post1}/> */}
-        {/* <SearchResultsScreen/> */}
-        {/* <DestinationSearchScreen/> */}
-        <GuestsScreen/> 
-      </SafeAreaView>
+    <Router/>
     </>
    
   );
