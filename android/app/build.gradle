@@ -124,7 +124,6 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -202,6 +201,7 @@ dependencies {
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.flipper'
     }
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

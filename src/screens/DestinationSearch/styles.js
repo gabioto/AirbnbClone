@@ -4,15 +4,14 @@ const styles = StyleSheet.create({
         margin:20
     },
     textInput:{
-        fontSize:20,
+        marginTop:0,
+        fontSize:15,
         marginBottom:20
     },
     row:{
         flexDirection:'row',
         alignItems:'center',
-        paddingVertical:15,
-        borderBottomWidth:1,
-        borderColor:'lightgrey'
+        paddingVertical:12,
     },
     locationText:{
 

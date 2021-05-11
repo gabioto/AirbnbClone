@@ -1,38 +1,48 @@
 import React,{useState} from 'react';
-import { View,TextInput,FlatList,Text, Pressable } from 'react-native';
+import { TextInput, View} from 'react-native';
 import styles from './styles';
-import Entypo from 'react-native-vector-icons/Entypo'
-import SearchResults from '../../../assets/data/search'
-import {useNavigation} from '@react-navigation/native'
+import SuggestionRow from './SuggestionRow'
+import { useNavigation } from '@react-navigation/native'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 
-const DestinationSearch = () => { 
-    const [inputText,setInputText]  = useState('');
+
+const DestinationSearch = () => {
+    const [inputText, setInputText] = useState('');
     const navigation = useNavigation()
-  return(
-    <View style={styles.container}>
-        {/* input component */}
-        <TextInput
-            style={styles.textInput}
-            placeholder="Where are you going"
-            value={inputText}
-            onChangeText={setInputText}
-        />
-        {/* list of destination   */}
-        <FlatList 
-            data={SearchResults}
-            renderItem={({item})=>(
-                <Pressable onPress={()=>navigation.navigate('Guests')} style={styles.row}>
-                    <View style={styles.iconContainer}>
-                        <Entypo name="location-pin" size={30}/>
-                    </View>
-                    <Text style={styles.locationText}>{item.description} </Text>
-                </Pressable>
-                )
-               
-            }
-        />
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            {/* input component */}
+            <View style={{ height: 500 }}>
+                <GooglePlacesAutocomplete
+                    placeholder='Where are you going?'
+                    onPress={(data, details = null) => {
+                        // 'details' is provided when fetchDetails = true
+                        navigation.navigate('Guests')
+                        console.log(data, details); 
+                    }}
+                    query={{
+                        key: 'AIzaSyB7oFNjaUcqkITFE1G4Ekw2y8N-Codrn54',
+                        language: 'en',
+                    }}
+                    
+                    styles={{
+                        textInput: styles.textInput,
+
+                    }}
+
+                    renderRow={(item) => <SuggestionRow item={item}/>}
+                />
+            </View>
+            <TextInput
+                style={styles.textInput}
+                placeholder="Where are you going"
+                value={inputText}
+                onChangeText={setInputText}
+            />
+            {/* list of destination   */}
+           
+        </View>
+    );
 }
 
 export default DestinationSearch;
