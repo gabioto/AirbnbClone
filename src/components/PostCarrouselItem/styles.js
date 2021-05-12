@@ -3,12 +3,22 @@ const styles = StyleSheet.create({
     container:{
         height:120,
         padding:5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 16,
     },
     innerContainer:{
         flexDirection:'row',
         backgroundColor:'white',
         borderRadius:10,
         overflow:'hidden',
+
         //todo lo q se muestra fuera del contenedor estara oculto -> hidden
 
     },
@@ -26,11 +36,11 @@ const styles = StyleSheet.create({
         color:'#5b5b5b'
     },
     description:{
-        fontSize:16,
+        fontSize:15,
         lineHeight:20
     },
     prices:{
-        fontSize:18,
+        fontSize:15,
         marginVertical:10
     },
     oldPrice:{

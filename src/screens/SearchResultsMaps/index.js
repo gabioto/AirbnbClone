@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, View,FlatList ,useWindowDimensions} from 'react-native'
 import CustomMarket from '../../components/CustomMarker'
 import PostCarrouselItem from '../../components/PostCarrouselItem'
 import places from '../../../assets/data/feed'
@@ -9,6 +9,7 @@ import styles from './styles'
 
 const SearchResultsMaps = (props) => {
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
+    const width = useWindowDimensions().width;
     return (
         <View style={styles.container}>
             <MapView
@@ -34,7 +35,16 @@ const SearchResultsMaps = (props) => {
                 )}
             </MapView>
             <View style={{position:'absolute',bottom:10}}> 
-                <PostCarrouselItem post={places[0]}/>
+                {/* <PostCarrouselItem post={places[0]}/> */}
+                <FlatList
+                    data={places}
+                    renderItem={({item})=> <PostCarrouselItem post={item}/>}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    snapToInterval={width-60}
+                    snapToAlignment={'center'}
+                    decelerationRate={'fast'}
+                />
             </View>
         </View>
     )

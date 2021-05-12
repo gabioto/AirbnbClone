@@ -9,7 +9,7 @@ const Post = (props) => {
     const post = props.post
     const WIDTH = useWindowDimensions().width;
     return (
-        <View style={styles.container,{width:WIDTH-60}}>
+        <View style={[styles.container,{width:WIDTH-60}]}>
             {/* image */}
             <View style={styles.innerContainer}>
                 <Image
@@ -18,7 +18,7 @@ const Post = (props) => {
 
                 />
                 {/* Bed and bathroom */}
-                <View style = {styles.containerDetails}>
+                <View style={{flex: 1, marginHorizontal: 10}}>
                     <Text style={styles.bedrooms}>
                         {post.bed} bed {post.bedroom} bedroom
                     </Text>
