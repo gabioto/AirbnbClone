@@ -5,7 +5,7 @@ import { Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if 
 
 const CustomMarked = (props) => {
     const { coordinate, price, onPress, isSelected } = props;
-    console.log(props)
+    //console.log(props)
     return (
         <Marker
             coordinate={coordinate}

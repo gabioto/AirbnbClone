@@ -23,6 +23,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Router from './src/navigation/Router'
 
+import { withAuthenticator } from 'aws-amplify-react-native'
+
 const App: () => Node = () => {
 
   return (
@@ -33,4 +35,4 @@ const App: () => Node = () => {
    
   );
 };
-export default App;
+export default withAuthenticator(App);

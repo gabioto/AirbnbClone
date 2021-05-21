@@ -5,61 +5,84 @@ import CustomMarket from '../../components/CustomMarker'
 import PostCarrouselItem from '../../components/PostCarrouselItem'
 import places from '../../../assets/data/feed'
 import styles from './styles'
+import { API, graphqlOperation } from 'aws-amplify'
+import { listPosts } from '../../graphql/queries'
 
 
 const SearchResultsMaps = (props) => {
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
+    const [posts, setPosts] = useState([]);
     const flatlist = useRef();
     const map = useRef();
 
-    const viewConfig = useRef({itemVisiblePercentThreshold : 70});
-    const onViewChanged = useRef(({viewableItems}) => {
+    const viewConfig = useRef({ itemVisiblePercentThreshold: 70 });
+    const onViewChanged = useRef(({ viewableItems }) => {
         //cada vez q cambie el valor del scroll tbm cambiaremos el valor de selectedplaceID
-        if(viewableItems.length > 0){
+        if (viewableItems.length > 0) {
             const selectedPlaceId = viewableItems[0].item;
-            console.log("scroll en : ",selectedPlaceId)
+            //console.log("scroll en : ",selectedPlaceId)
             setSelectedPlaceId(selectedPlaceId.id)
         }
+    })
+
+    const width = useWindowDimensions().width;
+    useEffect(() => {
+        //call Data API
+        const fetchPosts = async () => {
+            try {
+                const postsResult = await API.graphql(
+                    graphqlOperation(listPosts)
+                )
+                setPosts(postsResult.data.listPosts.items);
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        fetchPosts();
     })
 
     useEffect(() => {
         if (!selectedPlaceId || !flatlist) {
             return;
         }
-        const index = places.findIndex(place => place.id ===selectedPlaceId )
-        flatlist.current.scrollToIndex({index})
+        const index = posts.findIndex(place => place.id === selectedPlaceId)
+        flatlist.current.scrollToIndex({ index })
         //cambiaremos aparecinia del mapa cuando cambie selected place
-        const selectedPlace = places[index];
+        const selectedPlace = posts[index];
+        console.log("cambia ubicaicon", selectedPlace)
         const region = {
-            latitud : selectedPlace.coordinate.latitude,
-            longitud : selectedPlace.coordinate.longitude,
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1
+            latitude: selectedPlace.latitude,
+            longitude: selectedPlace.longitude,
+            latitudeDelta: 0.8,
+            longitudeDelta: 0.8,
         }
         map.current.animateToRegion(region);
+        console.log(map.current)
+        
+        
     }, [selectedPlaceId])
 
-    const width = useWindowDimensions().width;
+    
     return (
         <View style={styles.container}>
             <MapView
-                ref = {map}
+                ref={map}
                 provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                 style={styles.map}
-                region={{
+                initialRegion={{
                     latitude: 28.3279822,
-                    longitude: -16.51248447,
+                    longitude: -16.5124847,
                     latitudeDelta: 0.8,
                     longitudeDelta: 0.8,
                 }}>
 
                 {/* for each palces render one marker on the map: can use de map funtion from js witch 
             the loops for one array and tranform it to something  */}
-                {places.map(place => (
+                {posts.map(place => (
                     <CustomMarket
                         key={place.id}
-                        coordinate={place.coordinate}
-                        price={place.totalPrice}
+                        coordinate={{ latitude: place.latitude, longitude: place.longitude }}
+                        price={place.newPrice}
                         isSelected={place.id === selectedPlaceId}
                         onPress={() => setSelectedPlaceId(place.id)}
                     />)
@@ -69,11 +92,11 @@ const SearchResultsMaps = (props) => {
                 {/* <PostCarrouselItem post={places[0]}/> */}
                 <FlatList
                     ref={flatlist}
-                    data={places}
+                    data={posts}
                     renderItem={({ item }) => <PostCarrouselItem post={item} />}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    pagingEnabled={Platform.OS === 'android'}
+                    // pagingEnabled={Platform.OS === 'android'}
                     snapToAlignment={"center"}
                     snapToInterval={width - 60}
                     decelerationRate={'fast'}

@@ -1,18 +1,38 @@
-import React from 'react';
-import { FlatList, Text, View} from 'react-native';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-
+import React,{useEffect,useState} from 'react';
+import { FlatList, Text, View } from 'react-native';
 import styles from './styles'
 import Post from '../../components/Post'
-import feed from '../../../assets/data/feed'
+import { API, graphqlOperation } from 'aws-amplify'
+import {listPosts} from '../../graphql/queries'
 
+// import feed from '../../../assets/data/feed'
+
+
+
+//I get this data fro dummy data feed, but now de date come from data API
 const SearchResultsScreen = (props) => {
-  return(
+
+  const [post,setPost] = useState([]);
+  useEffect(() => {
+    //call Data API
+    const fetchPosts = async()=>{
+      try{
+        const postsResult = await API.graphql(
+          graphqlOperation(listPosts)
+        )
+        setPost(postsResult.data.listPosts.items);
+      }catch (e){
+        console.log(e)
+      }
+    }
+    fetchPosts();
+  }, )
+  return (
     <View>
-        <FlatList
-            data={feed}
-            renderItem={({item}) => <Post post={item}/>}
-        />       
+      <FlatList
+        data={post}
+        renderItem={({ item }) => <Post post={item} />}
+      />
     </View>
   );
 };
