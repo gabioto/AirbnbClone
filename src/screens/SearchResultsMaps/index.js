@@ -10,6 +10,8 @@ import { listPosts } from '../../graphql/queries'
 
 
 const SearchResultsMaps = (props) => {
+    const { guests } = props
+
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
     const [posts, setPosts] = useState([]);
     const flatlist = useRef();
@@ -31,7 +33,13 @@ const SearchResultsMaps = (props) => {
         const fetchPosts = async () => {
             try {
                 const postsResult = await API.graphql(
-                    graphqlOperation(listPosts)
+                    graphqlOperation(listPosts,{
+                        filter:{
+                          maxGuests:{
+                            ge : guests
+                          }
+                        }
+                      })
                 )
                 setPosts(postsResult.data.listPosts.items);
             } catch (e) {
