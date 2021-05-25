@@ -5,7 +5,9 @@ import styles from './styles';
 // import { Container } from './styles';
 
 const DetailedPost = (props) => {
-    const post = props.post
+    console.log(props)
+    const {post} = props
+ 
     return (
         <ScrollView>
             <View style={styles.container}>

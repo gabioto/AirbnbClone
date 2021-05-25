@@ -10,10 +10,9 @@ import {useRoute} from '@react-navigation/native'
 import places from  '../../../assets/data/feed' 
 
 
-const PostScreen = () => {
+const PostScreen = (props) => {
   const route = useRoute()
-  const post= places.find(place => place.id === route.params.postId);  
-  console.log(route.params)
+  const {post} = route.params
 
   return (
     <View style={{backgroundColor:'white'}}>

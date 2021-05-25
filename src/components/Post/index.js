@@ -8,8 +8,7 @@ const Post = (props) => {
   const post = props.post
   const navigation = useNavigation();
   const goToPostPage = () =>{
-    console.log("hola")
-    navigation.navigate('Post',{postId:post.id})
+    navigation.navigate('Post',{post:post})
   }
   return (
     <Pressable onPress={goToPostPage} style ={styles.container}>
