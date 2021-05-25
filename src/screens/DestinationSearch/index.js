@@ -17,12 +17,15 @@ const DestinationSearch = () => {
                     placeholder='Where are you going?'
                     onPress={(data, details = null) => {
                         // 'details' is provided when fetchDetails = true
-                        navigation.navigate('Guests')
-                        console.log(data, details); 
+                        console.log(data, details.geometry); 
+                        navigation.navigate('Guests',{viewport:details.geometry.viewport})
+                        
                     }}
+                    fetchDetails
                     query={{
                         key: 'AIzaSyB7oFNjaUcqkITFE1G4Ekw2y8N-Codrn54',
                         language: 'en',
+                        types:'(cities)'
                     }}
                     
                     styles={{

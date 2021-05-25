@@ -5,15 +5,12 @@ import CustomMarket from '../../components/CustomMarker'
 import PostCarrouselItem from '../../components/PostCarrouselItem'
 import places from '../../../assets/data/feed'
 import styles from './styles'
-import { API, graphqlOperation } from 'aws-amplify'
-import { listPosts } from '../../graphql/queries'
 
 
 const SearchResultsMaps = (props) => {
-    const { guests } = props
+    const { posts } = props
 
     const [selectedPlaceId, setSelectedPlaceId] = useState(null);
-    const [posts, setPosts] = useState([]);
     const flatlist = useRef();
     const map = useRef();
 
@@ -28,27 +25,7 @@ const SearchResultsMaps = (props) => {
     })
 
     const width = useWindowDimensions().width;
-    useEffect(() => {
-        //call Data API
-        const fetchPosts = async () => {
-            try {
-                const postsResult = await API.graphql(
-                    graphqlOperation(listPosts,{
-                        filter:{
-                          maxGuests:{
-                            ge : guests
-                          }
-                        }
-                      })
-                )
-                setPosts(postsResult.data.listPosts.items);
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        fetchPosts();
-    })
-
+   
     useEffect(() => {
         if (!selectedPlaceId || !flatlist) {
             return;
@@ -64,9 +41,7 @@ const SearchResultsMaps = (props) => {
             latitudeDelta: 0.8,
             longitudeDelta: 0.8,
         }
-        map.current.animateToRegion(region);
-        console.log(map.current)
-        
+        map.current.animateToRegion(region);     
         
     }, [selectedPlaceId])
 
